@@ -1,41 +1,14 @@
 <template>
-  <div class="productList">
-    <div
-      v-for="{ id, images, title } in listProduct"
-      :key="id"
-      class="item"
-      @click="handleShowDetail(id, images.url)"
-    >
-      <img :src="images.url" :alt="title" class="img" />
-      <h3 class="title">{{ title }}</h3>
-    </div>
-  </div>
+  <div class="productList"></div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-
 export default {
   name: 'ProductList',
 
-  computed: {
-    ...mapState('product', ['listProduct']),
-  },
+  computed: {},
 
-  created() {
-    this.getListProduct()
-  },
-
-  methods: {
-    ...mapActions('product', ['getListProduct']),
-    handleShowDetail(id, url) {
-      this.$router.push({
-        name: 'product-id',
-        params: { id },
-        query: { url },
-      })
-    },
-  },
+  created() {},
 }
 </script>
 

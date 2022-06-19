@@ -9,7 +9,7 @@
         width: w + 'px',
         height: h + 'px',
       }"
-  ></div>
+    ></div>
   </div>
 </template>
 

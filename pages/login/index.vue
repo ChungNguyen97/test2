@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'LoginPage',
@@ -32,22 +32,31 @@ export default {
     return {
       email: '',
       password: '',
+      error: '',
     }
   },
   computed: {
-    ...mapGetters('auth', ['getStatusLogin']),
+    ...mapState('login', ['isLogin']),
   },
 
   methods: {
     ...mapActions('login', ['loginAction']),
     async handleLogin() {
-      const data = {
-        email: this.email,
-        password: this.password,
-      }
-      await this.loginAction(data)
-      if (this.getStatusLogin) {
-        this.$router.push('/')
+      try {
+        const data = {
+          email: this.email,
+          password: this.password,
+        }
+
+        const res = await this.loginAction(data)
+
+        console.log('res: ', res)
+
+        await this.$auth.setToken('local', 'Bearer ' + res.data.token)
+        await this.$auth.setRefreshToken('local', res.data.refresh)
+        await this.$auth.setUserToken(res.data.token)
+      } catch (error) {
+        this.error = 'rong'
       }
     },
     loginNow() {

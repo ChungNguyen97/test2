@@ -9,9 +9,10 @@ const logout = {
     async actionLogout() {
       try {
         const res = await this.$axios.post('logout')
-        if (res.status === 200) {
-          this.commit('auth/SET_TOKEN', null)
-        }
+        console.log('res: ', res);
+        this.commit('login/SET_LOGIN', false)
+        this.$outer.push('/login')
+        return res
       } catch (error) {
         return false
       }

@@ -1,5 +1,7 @@
 const state = () => ({
-  title: 'login'
+  title: 'login',
+  isLogin: false
+
 })
 
 const getter = {
@@ -9,9 +11,10 @@ const actions = {
   async loginAction({ commit }, data) {
     try {
       const res = await this.$axios.post('login', data)
-      if (res.status === 200 || res.statusText === 'OK') {
-        this.commit('auth/SET_TOKEN', res.data.token);
-      }
+      commit('SET_LOGIN', true)
+
+      this.$router.push('/')
+      return res
     } catch (error) {
       return false
     }
@@ -19,8 +22,11 @@ const actions = {
   }
 }
 
-const mutations = {
 
+const mutations = {
+  SET_LOGIN(state, statusLogin) {
+    state.isLogin = statusLogin
+  }
 }
 
 export {
