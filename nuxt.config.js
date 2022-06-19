@@ -1,6 +1,5 @@
-
-
 export default {
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Mini project with Nuxtjs',
@@ -39,12 +38,15 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxtjs/auth'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://shopify-dialga.herokuapp.com/api/',
+    baseURL: process.env.BASE_URL,
+    proxyHeaders: false,
+    credentials: false,
 
     // headers: {
     //   'Content-Type': 'application/json',
@@ -66,6 +68,38 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000'
+  },
+  router: {
+    // middleware: 'authenticated'
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'login',
+            method: 'post',
+            propertyName: 'token',
+          },
 
+          tokenRequired: true,
+          logout: false
+        }
+      },
+      watchLoggedIn: true,
+      // redirect: {
+      //   login: '/login',
+      //   logout: '/',
+      //   callback: '/login',
+      //   home: '/'
+      // }
+    }
+  },
+
+
+
+  // mode: 'universal'
 
 }

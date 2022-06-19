@@ -1,43 +1,51 @@
-export const state = () => ({
-  listProduct: [],
-  isLoading: false,
-  page_info: null,
-  productsItem: {}
+const state = () => ({
+  productList: [],
+  productType: [],
+  productItem: {}
 })
 
-export const getter = {
-  getListProducts: state => state.listProduct
-}
-
-export const actions = {
-  async getListProduct({ commit }) {
-    try {
-      const res = await this.$axios.get('graph')
-      commit('SET_LIST_PRODUCT', res.data)
-    } catch (error) {
-      return false
-    }
-  },
-
-  async getPrductById({ commit }, id) {
-    try {
-      const res = await this.$axios.get(`graph/${id}`)
-      commit('SET_PRODUCT_ITEM', res.data)
-    } catch (error) {
-      return false
-    }
-  }
-
+const getter = {
 
 }
 
-export const mutations = {
-  SET_LIST_PRODUCT(state, payload) {
-    state.listProduct = payload.products;
-    state.page_info = payload.page_info;
-    state.isLoading = false
+const actions = {
+  async getProductList({ commit }, params = '') {
+    const res = await this.$axios.get('graph', { params })
+    commit('SET_PRODUCT_LIST', res.data)
   },
-  SET_PRODUCT_ITEM(state, data) {
-    state.productsItem = data;
+
+  async getProductById({ commit }, id) {
+    const res = await this.$axios.get(`graph/${id}`)
+    commit('SET_PRODUCT_ITEM', res.data)
+  },
+
+
+  async getProductByType({ commit }, payload) {
+    const res = await this.$axios.get('graph', { payload })
+    return res
+  },
+
+  async getProductType({ commit }) {
+    const res = await this.$axios.get('product-types',)
+    commit('SET_PRODUCT_TYPE', res.data)
   }
+}
+
+const mutations = {
+  SET_PRODUCT_LIST(state, list) {
+    state.productList = list.products
+  },
+  SET_PRODUCT_TYPE(state, productType) {
+    state.productType = productType.product_types
+  },
+  SET_PRODUCT_ITEM(state, item) {
+    state.productItem = item
+  }
+}
+
+export {
+  state,
+  getter,
+  actions,
+  mutations
 }

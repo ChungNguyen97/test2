@@ -7,9 +7,12 @@
 <script>
 export default {
   name: 'ProductItem',
+
   data() {
     return {}
   },
+  created() {},
+  mounted() {},
 }
 </script>
 

@@ -1,24 +1,34 @@
 <template>
   <div class="product">
+    <h1>productType</h1>
+    <div>{{ productType }}</div>
+    <hr />
     <h1>This is product page</h1>
+    <div>
+      {{ productList }}
+    </div>
     <ProductList />
-    <SkeletonLoad />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'ProductPage',
 
-  asyncData() {},
-
-  data() {
-    return {
-      itemId: null,
-    }
+  data: () => {
+    return {}
   },
 
-  methods: {},
+  async fetch({ store }) {
+    await store.dispatch('product/getProductList')
+    await store.dispatch('product/getProductType')
+  },
+
+  computed: {
+    ...mapState('product', ['productList', 'productType']),
+  },
 }
 </script>
 

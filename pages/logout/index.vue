@@ -49,6 +49,7 @@ export default {
       clearTimeout(this.timerIdClearIn)
 
       await this.actionLogout()
+      await this.$auth.setToken('local', 'Bearer ' + '')
       if (!this.token) {
         this.$router.push('login')
       }
